@@ -4,6 +4,8 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"time"
+
 	"github.com/opfocus/tri/todo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -23,7 +25,7 @@ func addRun(cmd *cobra.Command, args []string) {
 		panic(err)
 	}
 	for _, v := range args {
-		item := todo.Item{Text: v}
+		item := todo.Item{Text: v, CreateAt: time.Now()}
 		item.SetPriority(priority)
 		items = append(items, item)
 	}

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/opfocus/tri/todo"
 	"github.com/spf13/cobra"
@@ -27,18 +28,18 @@ func doneRun(cmd *cobra.Command, args []string) {
 	if err != nil {
 		panic(err)
 	}
-
 	i, err := strconv.Atoi(args[0])
 	if err != nil {
 		log.Fatalln(args[0], "is not valid lable", err)
 	}
 	if i > 0 && i <= len(items) {
-		items[i-1].Done = true
+		items[i-1].Done, items[i-1].DoneAt = true, time.Now()
 		fmt.Printf("%q %v\n", items[i-1].Text, "marked done")
 		todo.SaveItems(viper.GetString("datafile"), items)
 	} else {
 		log.Println(i, " doesn't match any items")
 	}
+
 }
 
 func init() {

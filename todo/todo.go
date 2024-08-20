@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"strconv"
+	"time"
 )
 
 type Item struct {
@@ -12,7 +13,11 @@ type Item struct {
 	Priority int
 	position int
 	Done     bool
+	CreateAt time.Time
+	DoneAt   time.Time
 }
+
+var ColumnName = []string{"NO.", "DONE", "PRIORITY", "TASK", "CREAT_AT", "DONE_AT"}
 
 func SaveItems(filename string, items []Item) error {
 	b, err := json.Marshal(items)
@@ -27,10 +32,21 @@ func SaveItems(filename string, items []Item) error {
 }
 
 func ReadItems(filename string) ([]Item, error) {
-	var items []Item
+	var items = []Item{}
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		file, err := os.Create(filename)
+		if err != nil {
+			panic(err)
+		}
+		file.Close()
+	}
 	dat, err := os.ReadFile(filename)
 	if err != nil {
 		return items, err
+	}
+
+	if len(dat) == 0 {
+		return items, nil
 	}
 	err = json.Unmarshal(dat, &items)
 	if err != nil {
@@ -68,9 +84,9 @@ func (i *Item) PrettyP() string {
 func (i *Item) PrettyDone() string {
 	switch i.Done {
 	case false:
-		return "done(false)"
+		return "NO"
 	default:
-		return "done(true)"
+		return "YES"
 	}
 }
 
