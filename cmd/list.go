@@ -48,7 +48,9 @@ func listRun(cmd *cobra.Command, args []string) {
 			item.PrettyDone() + "\t" +
 			item.PrettyP() + "\t" +
 			item.Text + "\t" +
-			item.CreateAt.Format(dateLayout) + "\t"
+			item.CreateAt.Format(dateLayout) + "\t" +
+			item.Tag + "\t" +
+			item.Category + "\t"
 
 		if !item.DoneAt.IsZero() {
 			output += item.DoneAt.Format(dateLayout) + "\t"

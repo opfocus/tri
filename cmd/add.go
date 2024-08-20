@@ -25,7 +25,7 @@ func addRun(cmd *cobra.Command, args []string) {
 		panic(err)
 	}
 	for _, v := range args {
-		item := todo.Item{Text: v, CreateAt: time.Now()}
+		item := todo.Item{Text: v, CreateAt: time.Now(), Tag: tag, Category: category}
 		item.SetPriority(priority)
 		items = append(items, item)
 	}
@@ -35,7 +35,11 @@ func addRun(cmd *cobra.Command, args []string) {
 	}
 }
 
-var priority int
+var (
+	priority int
+	tag      string
+	category string
+)
 
 func init() {
 	rootCmd.AddCommand(addCmd)
@@ -51,4 +55,6 @@ func init() {
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	addCmd.Flags().IntVarP(&priority, "priority", "p", 2, "Priority: High=1, Middle=2, Low=3")
+	addCmd.Flags().StringVarP(&tag, "tag", "t", "none", "Tag: task in which tag")
+	addCmd.Flags().StringVarP(&category, "category", "c", "None", "task in which category")
 }

@@ -15,9 +15,11 @@ type Item struct {
 	Done     bool
 	CreateAt time.Time
 	DoneAt   time.Time
+	Tag      string
+	Category string
 }
 
-var ColumnName = []string{"NO.", "DONE", "PRIORITY", "TASK", "CREAT_AT", "DONE_AT"}
+var ColumnName = []string{"NO.", "DONE", "PRIORITY", "TASK", "CREATE_AT", "Tag", "Category", "DONE_AT"}
 
 func SaveItems(filename string, items []Item) error {
 	b, err := json.Marshal(items)
